@@ -52,5 +52,6 @@
     profiles = { };
   };
   programs.vscode.enable = true;
+  programs.direnv.enable = true;
 
 }
