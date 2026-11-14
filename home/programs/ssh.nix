@@ -7,43 +7,53 @@
 {
   programs.ssh = {
     enable = true;
-    addKeysToAgent = "yes";
-    matchBlocks = {
+    enableDefaultConfig = false;
+
+    settings = {
       "*" = {
-        setEnv = {
+        AddKeysToAgent = "yes";
+        SetEnv = {
           TERM = "xterm-256color";
         };
+
+        ForwardAgent = false;
+        Compression = false;
+        ServerAliveInterval = 0;
+        ServerAliveCountMax = 3;
+        HashKnownHosts = false;
+        UserKnownHostsFile = "~/.ssh/known_hosts";
+        ControlMaster = "no";
+        ControlPath = "~/.ssh/master-%r@%n:%p";
+        ControlPersist = "no";
       };
 
       "euler" = {
-        hostname = "euler.ethz.ch";
-        user = "czanoli";
+        HostName = "euler.ethz.ch";
+        User = "czanoli";
       };
 
       "student-cluster" = {
-        hostname = "student-cluster.inf.ethz.ch";
-        user = "czanoli";
+        HostName = "student-cluster.inf.ethz.ch";
+        User = "czanoli";
       };
 
       "luca-gpu" = {
-        hostname = "100.66.235.1";
-        user = "tatiana";
+        HostName = "100.66.235.1";
+        User = "tatiana";
       };
 
       "3dv-luca-gpu" = {
-        hostname = "100.66.235.1";
-        user = "cvision";
+        HostName = "100.66.235.1";
+        User = "cvision";
       };
 
       "eulergt" = {
-        hostname = "euler.ethz.ch";
-        user = "gtavernini";
-        identityFile = "~/.ssh/euler_3dv_team";
+        HostName = "euler.ethz.ch";
+        User = "gtavernini";
+        IdentityFile = "~/.ssh/euler_3dv_team";
       };
-
     };
   };
-  services.ssh-agent = {
-    enable = true;
-  };
+
+  services.ssh-agent.enable = true;
 }

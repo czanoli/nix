@@ -2,7 +2,12 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
   vars = import ./vars.nix;
 in
@@ -11,6 +16,9 @@ in
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
   ];
+
+  # LUKS root filesystem: required for systemd initrd
+  fileSystems."/".device = lib.mkForce "/dev/mapper/luks-c08979ca-7324-43bb-8f7a-b7742117f2d0";
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -36,8 +44,8 @@ in
   services.xserver.enable = true;
 
   # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  services.displayManager.gdm.enable = true;
+  services.desktopManager.gnome.enable = true;
   environment.gnome.excludePackages =
     (with pkgs; [
       gnome-photos
@@ -71,6 +79,7 @@ in
     htop
     git
     killall
+    google-chrome
 
     # ensure we have proprietary VPN support
     openconnect
@@ -79,6 +88,10 @@ in
     docker-compose
 
     devenv
+
+    kubectl
+    kubernetes-helm
+    k9s
   ];
 
   # Packages with nixos options (to be preferred compared the above way if present)

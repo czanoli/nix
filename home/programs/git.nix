@@ -8,24 +8,18 @@
 }:
 {
   programs.git = {
-
     enable = true;
-
     lfs.enable = true;
 
-    userName = vars.firstName;
-    userEmail = vars.email;
+    settings = {
+      user = {
+        name = vars.firstName;
+        email = vars.email;
+      };
 
-    extraConfig = {
-      init = {
-        defaultBranch = "main";
-      };
-      pull = {
-        rebase = true;
-      };
-      push = {
-        autoSetupRemote = true;
-      };
+      init.defaultBranch = "main";
+      pull.rebase = true;
+      push.autoSetupRemote = true;
     };
   };
 }

@@ -44,7 +44,7 @@
     imagemagick
     ghostscript
 
-    nixfmt-rfc-style
+    nixfmt
   ];
 
   programs.thunderbird = {
